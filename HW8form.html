@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-svg-round-progressbar/0.4.8/roundProgress.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-svg-round-progressbar/0.4.8/roundProgress.min.js"></script>
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="angular-sanitize.js"></script>
+    <script src="ui-bootstrap-tpls-2.1.3.js"></script>
+    <script src="dirPagination.js"></script>
+
+</head>
+
+
+<body ng-app="myApp" ng-controller="myCtrl" class="container">
+
+    <div class="searchform container">
+        <div class="bg-dark text-white form-horizontal">
+            <center>
+                <p><b>Product Search</b></p>
+            </center>
+            <form id="search" method="GET" name="search">
+                <!-- For Keyword-->
+                <div class="form-group row">
+                    <div class="col-sm-1"></div>
+                    <label class="col-sm-3 col-form-label">Keyword<i style="color:red;">*</i></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="keyword" placeholder="Enter Product Name (eg. iPhone 8)" name="keyword">
+                    </div>
+                </div>
+                <!--Category-->
+                <div class="form-group row">
+                    <div class="col-sm-1"></div>
+                    <label for="category" class="col-sm-3 col-form-label">Category</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="categoryId" name="categoryId">
+                    <option id="default" value="0" selected> All categories</option>
+                    <option id="Art" value="550"> Art </option>
+                    <option id="Baby" value="2984"> Baby </option>
+                    <option id="Books" value="267"> Books </option>
+                    <option id="Clothing,Shoes & Accessories" value="11450"> Clothing, Shoes &amp; Accessories </option>
+                    <option id="Computers/Tablets & Networking" value="58058"> Computers/Tablets &amp; Networking </option>
+                    <option id="Health & Beauty " value="26395"> Health &amp; Beauty </option>
+                    <option id="Music" value="11233"> Music </option>
+                    <option id="Video Games & Consoles" value="1249"> Video Games &amp; Consoles </option>
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-1"></div>
+                    <label for="condition" class="col-sm-3 col-form-label checkbox-inline pr-3" id="condition">Condition:
+                    </label>
+                    <label class="checkbox-inline col-sm-1"><input type="checkbox" id = "New" name="New" value="New">
+                            New
+                    </label>
+                    <label class="checkbox-inline col-sm-1"><input type="checkbox" id="Used" name="Used" value="Used">
+                            Used
+                    </label>
+                    <label class="checkbox-inline"><input type="checkbox" id="Unspecified" name="Unspecified" value="Unspecified">
+                            Unspecified
+                    </label>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-1"></div>
+                    <label for="Shipping" class="col-sm-3 col-form-label checkbox-inline pr-3" id="shipping" name="shipping">Shipping Options:
+                    </label>
+                    <label class="checkbox-inline col-sm-2"><input type="checkbox"  value="LocalPickupOnly" name="LocalPickupOnly" id="LocalPickupOnly">
+                                Local Pickup
+                    </label>
+                    <label class="checkbox-inline"><input type="checkbox" id="FreeShippingOnly" value="FreeShippingOnly" name="FreeShippingOnly">
+                                Free Shipping
+                    </label>
+                </div>
+                <!--Distance-->
+                <div class="form-group row">
+                    <div class="col-sm-1"></div>
+                    <label for="distance" class="col-sm-3 col-form-label">Distance(Miles)</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="distance" name="distance" placeholder="10">
+                    </div>
+                </div>
+
+                <!--From Location Field -->
+
+                <fieldset class="form-group">
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <legend class="col-form-label col-sm-3 pt-0">From<i style="color:red;"> *</i></legend>
+                        <div class="col-sm-8">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="radiobutton1" id="radiobutton1" value="radiobutton1">
+                                <label class="form-check-label" for="radiobutton1">Current location</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="radiobutton2" id="radiobutton2" value="radiobutton2">
+                                <div class="form-group">
+                                    <label for="radiobutton2">Other. Please specify zip code:</label>
+                                    <input type="text" class="form-control col-sm-6" id="locationinput" name="locationinput">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="form-group row">
+                    <div class="col-sm-5"></div>
+                    <button id="searchButton" name="searchButton" type="submit" class="btn btn-light center mr-3 mb-3" ng-click='btnclick()'><i class="material-icons">search</i>Search</button>
+                    <button type="button" class="btn btn-light mb-3"><i class="material-icons" style="vertical-align: middle">clear_all</i> Clear</button>
+                    <div class="col-sm-5"></div>
+                </div>
+
+            </form>
+        </div>
+        <!--Code For pagination starts-->
+        <div class="bs-component" id="productinfo">
+            <table class="table table-striped table-hover table-dark">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <!--<th>Shipping</th>-->
+                        <th>Zip</th>
+                        <th>Seller</th>
+                        <th>Waitlist</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr dir-paginate="user in data|itemsPerPage:10">
+                        <td>{{$index+1}}</td>
+                        <td>
+                            <img ng-src={{user.galleryURL[0]}}>
+                        </td>
+                        <td data-placement="down" title="{{user.title[0]}}" onmouseenter="$(this).tooltip('show')">{{user.title[0]}}</td>
+                        <td>${{user.sellingStatus[0].currentPrice[0].__value__}}</td>
+                        <td>{{user.postalCode[0]}}</td>
+                        <td>{{user.sellerInfo[0].sellerUserName[0]}}</td>
+                        <td>
+                            <i class="material-icons">add_shopping_cart</i>
+                        </td>
+                </tbody>
+            </table>
+
+        </div>
+        <dir-pagination-controls max-size="5" direction-links="true" boundary-links="false">
+
+        </dir-pagination-controls>
+        <!--Code for pagination ends-->
+        <!--Product Information-->
+        <!--Product information over-->
+    </div>
+
+    <script>
+        var app = angular.module("myApp", ['ui.bootstrap', 'angularUtils.directives.dirPagination']);
+        app.controller("myCtrl", function($scope, $http) {
+            $scope.values = {
+                keyword: "",
+                categoryId: "0",
+                New: "",
+                Used: "",
+                Unspecifies: "",
+                LocalPickupOnly: "",
+                FreeShippingOnly: "",
+                distance: "10",
+                radiobutton1: true,
+                radiobutton2: false,
+                locationinput: ""
+
+            }
+            var i = 0;
+            var j = 0;
+            $scope.btnclick = function() {
+
+                $scope.values.categoryId = document.getElementById("categoryId").value;
+                $scope.url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=YashShah-Yash-PRD-e16e2f149-341d2218&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&paginationInput.entriesPerPage=50&keywords=" + encodeURI(document.getElementById("keyword").value);
+
+                if ((document.getElementById("New").checked) || (document.getElementById("Used").checked) || (document.getElementById("Unspecified").checked)) {
+                    $scope.url += "&itemFilter(" + i + ").name=Condition";
+                    if (document.getElementById("New").checked) {
+                        $scope.url += "&itemFilter(" + i + ").value(" + j + ")=New";
+                        j += 1;
+                    }
+                    if (document.getElementById("Used").checked) {
+                        $scope.url += "&itemFilter(" + i + ").value(" + j + ")=Used";
+                        j += 1;
+                    }
+                    if (document.getElementById("Unspecified").checked) {
+                        $scope.url += "&itemFilter(" + i + ").value(" + i + ")=Unspecified";
+                        j += 1;
+                    }
+                    j = 0;
+                    i += 1;
+
+                }
+
+                if (document.getElementById("LocalPickupOnly").checked) {
+                    $scope.url += "&itemFilter(" + i + ").name=LocalPickupOnly&itemFilter(" + i + ").value=true";
+                    i += 1;
+                }
+                //console.log(document.getElementById("radiobutton1").checked); console.log(document.getElementById("radiobutton2").checked); console.log(document.getElementById("FreeShippingOnly").checked); alert('In btnclick');
+                if (document.getElementById("FreeShippingOnly").checked) {
+                    $scope.url += "&itemFilter(" + i + ").name=FreeShippingOnly&itemFilter(" + i + ").value=true";
+                    i += 1;
+                }
+                $scope.url += "&itemFilter(" + i + ").name=HideDuplicateItems&itemFilter(" + i + ").value=true";
+                i += 1;
+                if (document.getElementById("distance").value) {
+                    $scope.url += "&itemFilter(" + i + ").name=MaxDistance&itemFilter(" + i + ").value=" + document.getElementById("distance").value;
+                    i += 1;
+                } else {
+                    $scope.url += "&itemFilter(" + i + ").name=MaxDistance&itemFilter(" + i + ").value=10";
+                    i += 1;
+                }
+                if (document.getElementById("categoryId").value != "0" || document.getElementById("categoryId").value != 0) {
+                    $scope.url += "&categoryId=" + document.getElementById("categoryId").value;
+
+                }
+                if (document.getElementById("radiobutton1").checked) {
+                    $scope.url += "&buyerPostalCode=90007";
+                } else if (document.getElementById("radiobutton2").checked) {
+                    $scope.url += "&buyerPostalCode=" + document.getElementById("locationinput").value;
+                }
+                $scope.url += "&outputSelector(0)=SellerInfo&outputSelector(1)=StoreInfo";
+                console.log($scope.url);
+                try {
+                    $http.get("http://localhost:8000/", {
+                        params: {
+                            "params": $scope.url
+                        }
+                    }).then(function(response) {
+                        console.log(response.data.findItemsAdvancedResponse[0].searchResult[0].item);
+                        $scope.data = response.data.findItemsAdvancedResponse[0].searchResult[0].item;
+                        $scope.index = 1;
+
+
+                    });
+                } catch (err) {
+                    console.log(err);
+                }
+
+            }
+
+        });
+    </script>
+
+
+</body>
+
+</html>
+<script>
