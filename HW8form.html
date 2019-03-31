@@ -28,7 +28,7 @@
 
 <body ng-app="myApp" ng-controller="myCtrl" class="container">
 
-    <div class="searchform container">
+    <tableiv class="searchform container">
         <div class="bg-dark text-white form-horizontal">
             <center>
                 <p><b>Product Search</b></p>
@@ -127,14 +127,14 @@
         </div>
         <!--Code For pagination starts-->
         <div class="bs-component" id="productinfo">
-            <table class="table table-striped table-hover table-dark">
+            <table class="table table-striped table-hover table-dark table-responsive">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>Image</th>
                         <th>Title</th>
                         <th>Price</th>
-                        <!--<th>Shipping</th>-->
+                        <th>Shipping</th>
                         <th>Zip</th>
                         <th>Seller</th>
                         <th>Waitlist</th>
@@ -146,8 +146,13 @@
                         <td>
                             <img ng-src={{user.galleryURL[0]}}>
                         </td>
-                        <td data-placement="down" title="{{user.title[0]}}" onmouseenter="$(this).tooltip('show')">{{user.title[0]}}</td>
+                        <td data-placement="down" title="{{user.title[0]}}" onmouseenter="$(this).tooltip('show')" ng-click='fetchInfo(user.itemId[0])'> {{user.title[0]}}</td>
                         <td>${{user.sellingStatus[0].currentPrice[0].__value__}}</td>
+                        <td>
+                            {{calc(user.shippingInfo[0].shippingServiceCost[0].__value__)}}
+                        </td>
+
+
                         <td>{{user.postalCode[0]}}</td>
                         <td>{{user.sellerInfo[0].sellerUserName[0]}}</td>
                         <td>
@@ -162,101 +167,249 @@
         </dir-pagination-controls>
         <!--Code for pagination ends-->
         <!--Product Information-->
+        <script>
+            /*Remove the above div using jQuery*/
+        </script>
+        <div>
+
+            <!--Some code for tabs result/Wishlist facebook back and details and blah blah and Title on TOP in h2-->
+        </div>
+        <!-- <div class="bs-component">
+            <div class="table-striped table-hover table-dark table-responsive">
+                <div ng-if="prodInfo.PictureURL">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <td>Product Images</td>
+                        </div>
+                        <div class="col">
+                            <td>View Product Images Here</td>
+                            Add Code for modal picture gallery here
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="prodInfo.CurrentPrice">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <td>Price</td>
+                        </div>
+                        <div class="col">
+                            <td>${{prodInfo.CurrentPrice.Value}}</td>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="prodInfo.Location">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <td>Location</td>
+                        </div>
+                        <div class="col">
+                            <td>{{prodInfo.Location}}</td>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="prodInfo.ReturnPolicy">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <td>Return Policy (US) </td>
+                        </div>
+                        <td>
+                            {{prodInfo.ReturnPolicy.ReturnsAccepted}}</td>
+
+                        <div ng-if="prodInfo.ReturnPolicy.ReturnsWithin">
+                            within {{prodInfo.ReturnPolicy.ReturnsWithin}}
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-repeat="(key,value) in prodInfo.ItemSpecifics.NameValueList">
+                    <div class="row">
+                        <div class="col-sm-6">{{value.Name}}</div>
+                        <div class="col">{{value.Value[0]}}</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <End of Product Information -->
+        <!--Duplicate Table starts here -->
+        <div class="table responsive">
+            <table class="table-striped table-hover table-dark container">
+                <tr ng-if="prodInfo.PictureURL">
+                    <!--<div class="row">-->
+                    <!--<div class="col-sm-6">-->
+                    <td class="pl-3">Product Images</td>
+                    <!--</div>-->
+                    <!--<div class="col">-->
+                    <td>View Product Images Here</td>
+                    <!--Add Code for modal picture gallery here-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </tr>
+                <tr ng-if="prodInfo.CurrentPrice">
+                    <!--<div class="row">-->
+                    <!--<div class="col-sm-6">-->
+                    <td class="pl-3">Price</td>
+                    <!--</div>-->
+                    <!--<div class="col">-->
+                    <td>${{prodInfo.CurrentPrice.Value}}</td>
+                    <!--</div>-->
+                    <!--</div>-->
+                </tr>
+                <tr ng-if="prodInfo.Location">
+                    <!--<div class="row">-->
+                    <!--<div class="col-sm-6">-->
+                    <td class="pl-3">Location</td>
+                    <!--</div>-->
+                    <!--<div class="col">-->
+                    <td>{{prodInfo.Location}}</td>
+                    <!--</div>-->
+                    <!--</div>-->
+                </tr>
+                <tr ng-if="prodInfo.ReturnPolicy">
+                    <!--<div class="row">-->
+                    <!--<div class="col-sm-6">-->
+                    <td class="pl-3">Return Policy (US) </td>
+                    <!--</div>-->
+                    <td ng-if="prodInfo.ReturnPolicy.ReturnsWithin">
+                        {{prodInfo.ReturnPolicy.ReturnsAccepted}} Within {{prodInfo.ReturnPolicy.ReturnsWithin}} </td>
+
+                    <td ng-if="!prodInfo.ReturnPolicy.ReturnsWithin">
+                        {{prodInfo.ReturnPolicy.ReturnsAccepted}}
+                    </td>
+                    <!--</div>-->
+                </tr>
+
+                <tr ng-repeat="(key,value) in prodInfo.ItemSpecifics.NameValueList">
+                    <!--<div class="row">-->
+                    <!--<div class="col-sm-6">-->
+                    <td class="pl-3">{{value.Name}}</td>
+                    <!--</div>-->
+                    <!--<div class="col">-->
+                    <td class="pl-auto">{{value.Value[0]}}</td>
+                    <!--</div>-->
+                    <!--</div>-->
+                </tr>
+            </table>
+        </div>
+
+        <!--Duplicate End Table starts-->
+
+        </div>
+        <!--End of container-->
         <!--Product information over-->
-    </div>
 
-    <script>
-        var app = angular.module("myApp", ['ui.bootstrap', 'angularUtils.directives.dirPagination']);
-        app.controller("myCtrl", function($scope, $http) {
-            $scope.values = {
-                keyword: "",
-                categoryId: "0",
-                New: "",
-                Used: "",
-                Unspecifies: "",
-                LocalPickupOnly: "",
-                FreeShippingOnly: "",
-                distance: "10",
-                radiobutton1: true,
-                radiobutton2: false,
-                locationinput: ""
 
-            }
-            var i = 0;
-            var j = 0;
-            $scope.btnclick = function() {
-
-                $scope.values.categoryId = document.getElementById("categoryId").value;
-                $scope.url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=YashShah-Yash-PRD-e16e2f149-341d2218&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&paginationInput.entriesPerPage=50&keywords=" + encodeURI(document.getElementById("keyword").value);
-
-                if ((document.getElementById("New").checked) || (document.getElementById("Used").checked) || (document.getElementById("Unspecified").checked)) {
-                    $scope.url += "&itemFilter(" + i + ").name=Condition";
-                    if (document.getElementById("New").checked) {
-                        $scope.url += "&itemFilter(" + i + ").value(" + j + ")=New";
-                        j += 1;
-                    }
-                    if (document.getElementById("Used").checked) {
-                        $scope.url += "&itemFilter(" + i + ").value(" + j + ")=Used";
-                        j += 1;
-                    }
-                    if (document.getElementById("Unspecified").checked) {
-                        $scope.url += "&itemFilter(" + i + ").value(" + i + ")=Unspecified";
-                        j += 1;
-                    }
-                    j = 0;
-                    i += 1;
+        <script>
+            var app = angular.module("myApp", ['ui.bootstrap', 'angularUtils.directives.dirPagination']);
+            app.controller("myCtrl", function($scope, $http) {
+                $scope.values = {
+                    keyword: "",
+                    categoryId: "0",
+                    New: "",
+                    Used: "",
+                    Unspecifies: "",
+                    LocalPickupOnly: "",
+                    FreeShippingOnly: "",
+                    distance: "10",
+                    radiobutton1: true,
+                    radiobutton2: false,
+                    locationinput: ""
 
                 }
+                var i = 0;
+                var j = 0;
+                $scope.btnclick = function() {
 
-                if (document.getElementById("LocalPickupOnly").checked) {
-                    $scope.url += "&itemFilter(" + i + ").name=LocalPickupOnly&itemFilter(" + i + ").value=true";
-                    i += 1;
-                }
-                //console.log(document.getElementById("radiobutton1").checked); console.log(document.getElementById("radiobutton2").checked); console.log(document.getElementById("FreeShippingOnly").checked); alert('In btnclick');
-                if (document.getElementById("FreeShippingOnly").checked) {
-                    $scope.url += "&itemFilter(" + i + ").name=FreeShippingOnly&itemFilter(" + i + ").value=true";
-                    i += 1;
-                }
-                $scope.url += "&itemFilter(" + i + ").name=HideDuplicateItems&itemFilter(" + i + ").value=true";
-                i += 1;
-                if (document.getElementById("distance").value) {
-                    $scope.url += "&itemFilter(" + i + ").name=MaxDistance&itemFilter(" + i + ").value=" + document.getElementById("distance").value;
-                    i += 1;
-                } else {
-                    $scope.url += "&itemFilter(" + i + ").name=MaxDistance&itemFilter(" + i + ").value=10";
-                    i += 1;
-                }
-                if (document.getElementById("categoryId").value != "0" || document.getElementById("categoryId").value != 0) {
-                    $scope.url += "&categoryId=" + document.getElementById("categoryId").value;
+                    $scope.values.categoryId = document.getElementById("categoryId").value;
+                    $scope.url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=YashShah-Yash-PRD-e16e2f149-341d2218&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&paginationInput.entriesPerPage=50&keywords=" + encodeURI(document.getElementById("keyword").value);
 
-                }
-                if (document.getElementById("radiobutton1").checked) {
-                    $scope.url += "&buyerPostalCode=90007";
-                } else if (document.getElementById("radiobutton2").checked) {
-                    $scope.url += "&buyerPostalCode=" + document.getElementById("locationinput").value;
-                }
-                $scope.url += "&outputSelector(0)=SellerInfo&outputSelector(1)=StoreInfo";
-                console.log($scope.url);
-                try {
-                    $http.get("http://localhost:8000/", {
-                        params: {
-                            "params": $scope.url
+                    if ((document.getElementById("New").checked) || (document.getElementById("Used").checked) || (document.getElementById("Unspecified").checked)) {
+                        $scope.url += "&itemFilter(" + i + ").name=Condition";
+                        if (document.getElementById("New").checked) {
+                            $scope.url += "&itemFilter(" + i + ").value(" + j + ")=New";
+                            j += 1;
                         }
-                    }).then(function(response) {
-                        console.log(response.data.findItemsAdvancedResponse[0].searchResult[0].item);
-                        $scope.data = response.data.findItemsAdvancedResponse[0].searchResult[0].item;
-                        $scope.index = 1;
+                        if (document.getElementById("Used").checked) {
+                            $scope.url += "&itemFilter(" + i + ").value(" + j + ")=Used";
+                            j += 1;
+                        }
+                        if (document.getElementById("Unspecified").checked) {
+                            $scope.url += "&itemFilter(" + i + ").value(" + i + ")=Unspecified";
+                            j += 1;
+                        }
+                        j = 0;
+                        i += 1;
 
+                    }
 
-                    });
-                } catch (err) {
-                    console.log(err);
+                    if (document.getElementById("LocalPickupOnly").checked) {
+                        $scope.url += "&itemFilter(" + i + ").name=LocalPickupOnly&itemFilter(" + i + ").value=true";
+                        i += 1;
+                    }
+                    //console.log(document.getElementById("radiobutton1").checked); console.log(document.getElementById("radiobutton2").checked); console.log(document.getElementById("FreeShippingOnly").checked); alert('In btnclick');
+                    if (document.getElementById("FreeShippingOnly").checked) {
+                        $scope.url += "&itemFilter(" + i + ").name=FreeShippingOnly&itemFilter(" + i + ").value=true";
+                        i += 1;
+                    }
+                    $scope.url += "&itemFilter(" + i + ").name=HideDuplicateItems&itemFilter(" + i + ").value=true";
+                    i += 1;
+                    if (document.getElementById("distance").value) {
+                        $scope.url += "&itemFilter(" + i + ").name=MaxDistance&itemFilter(" + i + ").value=" + document.getElementById("distance").value;
+                        i += 1;
+                    } else {
+                        $scope.url += "&itemFilter(" + i + ").name=MaxDistance&itemFilter(" + i + ").value=10";
+                        i += 1;
+                    }
+                    if (document.getElementById("categoryId").value != "0" || document.getElementById("categoryId").value != 0) {
+                        $scope.url += "&categoryId=" + document.getElementById("categoryId").value;
+
+                    }
+                    if (document.getElementById("radiobutton1").checked) {
+                        $scope.url += "&buyerPostalCode=90007";
+                    } else if (document.getElementById("radiobutton2").checked) {
+                        $scope.url += "&buyerPostalCode=" + document.getElementById("locationinput").value;
+                    }
+                    $scope.url += "&outputSelector(0)=SellerInfo&outputSelector(1)=StoreInfo";
+                    console.log($scope.url);
+                    try {
+                        $http.get("http://localhost:8000/", {
+                            params: {
+                                "params": $scope.url
+                            }
+                        }).then(function(response) {
+                            console.log(response.data.findItemsAdvancedResponse[0].searchResult[0].item);
+                            $scope.data = response.data.findItemsAdvancedResponse[0].searchResult[0].item;
+                            $scope.index = 1;
+                            $scope.calc = function(price) {
+                                if (price == 0.0) {
+                                    return "Free Shipping"
+                                } else {
+                                    return "$" + price;
+                                }
+                            }
+                        });
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
+                $scope.fetchInfo = function(itemId) {
+                    console.log("Table data function");
+                    $scope.urlproduct = "http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=YashShah-Yash-PRD-e16e2f149-341d2218&siteid=0&version=967&ItemID=" + itemId + "&IncludeSelector=Description,Details,ItemSpecifics";
+                    console.log($scope.urlproduct)
+                    $http.get("http://localhost:8000/productinfo", {
+                            params: {
+                                "params": $scope.urlproduct
+                            }
+                        })
+                        .then(function(response) {
+                            console.log("In Successful product Information");
+                            console.log(response.data.Item)
+                            $scope.prodInfo = response.data.Item;
+                        });
                 }
 
-            }
-
-        });
-    </script>
+            });
+        </script>
 
 
 </body>

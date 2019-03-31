@@ -22,3 +22,19 @@ app.get('/', function(req, res) {
         })
 
 });
+
+app.get('/productinfo', function(req, res) {
+    console.log('In products Info Server');
+    var url = req.query.params;
+    console.log(url);
+    axios.get(url)
+        .then(function(response) {
+            console.log(response);
+            res.send(response.data);
+        })
+        .catch(function(error) {
+            //handles error and send appropriate msg to client
+            console.log(error);
+        })
+
+});
