@@ -39,7 +39,7 @@
                     <div class="col-sm-1"></div>
                     <label class="col-sm-3 col-form-label">Keyword<i style="color:red;">*</i></label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="keyword" placeholder="Enter Product Name (eg. iPhone 8)" name="keyword">
+                        <input type="text" class="form-control" id="keyword" placeholder="Enter Product Name (eg. iPhone 8)" name="keyword" required>
                     </div>
                 </div>
                 <!--Category-->
@@ -106,10 +106,10 @@
                                 <label class="form-check-label" for="radiobutton1">Current location</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="radiobutton2" id="radiobutton2" value="radiobutton2">
+                                <input class="form-check-input" type="radio" name="radiobutton2" id="radiobutton2" value="radiobutton2" >
                                 <div class="form-group">
                                     <label for="radiobutton2">Other. Please specify zip code:</label>
-                                    <input type="text" class="form-control col-sm-6" id="locationinput" name="locationinput">
+                                    <input type="text" class="form-control col-sm-6" id="locationinput" name="locationinput" pattern = "[0-9]{5}" title ="Invalid zipcode" oninvalid="setCustomValidity('Invalid zipcode ')" onchange="try{setCustomValidity('')}catch(e){}" onvalid="">
                                 </div>
                             </div>
                         </div>
@@ -129,7 +129,7 @@
     </div>
 
     <div class="progress" ng-show="showprogressbar">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
     </div>
 
     <ul class="center nav nav-pills justify-content-center black">
@@ -464,6 +464,8 @@
 
 
     <script>
+
+
         var app = angular.module("myApp", ['ui.bootstrap', 'angularUtils.directives.dirPagination', 'angular-svg-round-progressbar']);
         app.controller("myCtrl", function($scope, $http) {
             $scope.searchResult = false;
@@ -481,11 +483,30 @@
             $scope.radiobutton1 = true;
             $scope.radiobutton2 = false;
             $scope.locationinput = "";
-$scope.showprogressbar=false;
+            $scope.showprogressbar=false;
             $scope.limit = 5;
+            $scope.zip=""; 
+$scope.enableloc=false;
+document.getElementById("")
+            $http.get("http://ip-api.com/json").then(function(res) {
+                $scope.zip = res.data.zip;
+                console.log($scope.zip);
 
-
-
+            });
+            var inp = document.getElementById("locationinput");
+            inp.oninvalid = function(){
+                document.getElementbyId("searchButton").disabled=true;
+            }
+document.getElementById("radiobutton1").onclick=function(){
+    $scope.enableloc=false;
+    document.getElementById("radiobutton2").checked=false;
+    document.getElementById("locationinput").value="";
+    document.getElementById("locationinput").disabled=true;
+}
+document.getElementById("radiobutton2").onclick = function(){
+    document.getElementById("locationinput").disabled=false;
+    document.getElementById("radiobutton1").checked=false;
+}
             //Sorting Logic starts
             $scope.order = null;
             $scope.sortOrder = "asc";
