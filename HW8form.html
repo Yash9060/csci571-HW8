@@ -5,9 +5,8 @@
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
@@ -15,7 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-svg-round-progressbar/0.4.8/roundProgress.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-svg-round-progressbar/0.4.8/roundProgress.min.js"></script>
-
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700" rel="stylesheet">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -23,12 +22,13 @@
     <script src="ui-bootstrap-tpls-2.1.3.js"></script>
     <script src="dirPagination.js"></script>
 
+
 </head>
 
 
 <body ng-app="myApp" ng-controller="myCtrl" class="container">
 
-    <tableiv class="searchform container">
+    <div class="searchform container">
         <div class="bg-dark text-white form-horizontal">
             <center>
                 <p><b>Product Search</b></p>
@@ -125,294 +125,623 @@
 
             </form>
         </div>
-        <!--Code For pagination starts-->
-        <div class="bs-component" id="productinfo">
-            <table class="table table-striped table-hover table-dark table-responsive">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Image</th>
-                        <th>Title</th>
-                        <th>Price</th>
-                        <th>Shipping</th>
-                        <th>Zip</th>
-                        <th>Seller</th>
-                        <th>Waitlist</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr dir-paginate="user in data|itemsPerPage:10">
-                        <td>{{$index+1}}</td>
-                        <td>
-                            <img ng-src={{user.galleryURL[0]}}>
-                        </td>
-                        <td data-placement="down" title="{{user.title[0]}}" onmouseenter="$(this).tooltip('show')" ng-click='fetchInfo(user.itemId[0])'> {{user.title[0]}}</td>
-                        <td>${{user.sellingStatus[0].currentPrice[0].__value__}}</td>
-                        <td>
-                            {{calc(user.shippingInfo[0].shippingServiceCost[0].__value__)}}
-                        </td>
+
+    </div>
+
+    <div class="progress" ng-show="showprogressbar">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+    </div>
+
+    <ul class="center nav nav-pills justify-content-center black">
+        <li class="nav-item">
+            <a class="nav-link active" id="result-button" data-toggle="pills" href="#Results" role="tab" aria-controls="results" aria-selected="true">Results</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="wishlist-button" data-toggle="pills" href="#wishlist" role="tab" aria-controls="wishlist" aria-selected="true">Wishlist</a>
+        </li>
+
+    </ul>
+
+    <div class="container" id="Result" ng-show="showDetails">
+        <table class="table table-striped table-hover table-dark table-responsive mt-3">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Shipping</th>
+                    <th>Zip</th>
+                    <th>Seller</th>
+                    <th>Waitlist</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr dir-paginate="user in data|itemsPerPage:10">
+                    <td>{{$index+1}}</td>
+                    <td>
+                        <img ng-src={{user.galleryURL[0]}}>
+                    </td>
+                    <td data-placement="down" title="{{user.title[0]}}" onmouseenter="$(this).tooltip('show')" ng-click='fetchInfo(user.itemId[0],user.title[0],user.shippingInfo[0],user.ReturnsAccepted[0],sellerInfo)'> {{user.title[0]}}</td>
+                    <td>${{user.sellingStatus[0].currentPrice[0].__value__}}</td>
+                    <td>
+                        {{calc(user.shippingInfo[0].shippingServiceCost[0].__value__)}}
+                    </td>
 
 
-                        <td>{{user.postalCode[0]}}</td>
-                        <td>{{user.sellerInfo[0].sellerUserName[0]}}</td>
-                        <td>
-                            <i class="material-icons">add_shopping_cart</i>
-                        </td>
-                </tbody>
-            </table>
+                    <td>{{user.postalCode[0]}}</td>
+                    <td>{{user.sellerInfo[0].sellerUserName[0]}}</td>
+                    <td>
+                        <i class="material-icons">add_shopping_cart</i>
+                    </td>
+            </tbody>
+        </table>
 
-        </div>
         <dir-pagination-controls max-size="5" direction-links="true" boundary-links="false">
 
         </dir-pagination-controls>
-        <!--Code for pagination ends-->
-        <!--Product Information-->
-        <script>
-            /*Remove the above div using jQuery*/
-        </script>
-        <div>
+    </div>
 
-            <!--Some code for tabs result/Wishlist facebook back and details and blah blah and Title on TOP in h2-->
+    <div class="container table table-responsive" ng-show="searchResult">
+        <div class="row mt-3 mb-3" >
+            <h4 class="ml-auto mr-auto"><b>{{prodInfo.Title}}</b></h4>
         </div>
-        <!-- <div class="bs-component">
-            <div class="table-striped table-hover table-dark table-responsive">
-                <div ng-if="prodInfo.PictureURL">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <td>Product Images</td>
-                        </div>
-                        <div class="col">
-                            <td>View Product Images Here</td>
-                            Add Code for modal picture gallery here
-                        </div>
-                    </div>
-                </div>
-                <div ng-if="prodInfo.CurrentPrice">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <td>Price</td>
-                        </div>
-                        <div class="col">
+        <div class="row float-right">
+            <a href="#"><img src="http://csci571.com/hw/hw8/Images/facebook.png"></a>
+        </div>
+        <div class="mt-3 mb-3">
+            <ul class="nav nav-tabs justify-content-end" id="Buttons">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-product-tab" data-toggle="tab" href="#pills-product" role="tab" aria-controls="pills-home" aria-selected="true">Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-photos-tab" data-toggle="tab" href="#pills-photos" role="tab" aria-controls="pills-photos" aria-selected="false">Photos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-shipping-tab" data-toggle="tab" href="#pills-shipping" role="tab" aria-controls="pills-shipping" aria-selected="false">Shipping</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-seller-tab" data-toggle="tab" href="#pills-seller" role="tab" aria-controls="pills-seller" aria-selected="false">Seller</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-similar-tab" data-toggle="tab" href="#pills-similar" role="tab" aria-controls="pills-similar" aria-selected="false">Similar Products</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content" id="mytabcontent" ng-show="searchResult">
+            <div class="tab-pane fade show active" id="pills-product" role="tabpanel" aria-labelledby="pills-product-tab">
+                <div class="table responsive">
+                    <table class="table-striped table-hover table-dark container">
+                        <tr ng-if="prodInfo.PictureURL">
+                            <!--<div class="row">-->
+                            <!--<div class="col-sm-6">-->
+                            <td class="pl-3">Product Images</td>
+                            <!--</div>-->
+                            <!--<div class="col">-->
+                            <td><a href="lightbox" data-toggle="modal" data-target="#lightbox"> View Product Images Here</a>
+                            </td>
+                            <!--Code for Carousel and Modal PopUP box-->
+                            <div class="modal fade" id="lightbox" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Product Images</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="lightboxCarousel" class="carousel slide" data-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    <div class="carousel-item" ng-repeat="image in images" ng-class="{{$index}}==0?'active': '' ">
+                                                        <a href='{{image}}' target='_blank'>
+                                                            <img class='d-block w-150 h-100' ng-src='{{image}}' />
+                                                        </a>
+
+                                                    </div>
+                                                    <a class="carousel-control-prev" href="#lightboxCarousel" role="button" data-slide="prev">
+                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    </a>
+                                                    <a class="carousel-control-next" href="#lightboxCarousel" role="button" data-slide="next">
+                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </tr>
+                        <tr ng-if="prodInfo.CurrentPrice">
+                            <!--<div class="row">-->
+                            <!--<div class="col-sm-6">-->
+                            <td class="pl-3">Price</td>
+                            <!--</div>-->
+                            <!--<div class="col">-->
                             <td>${{prodInfo.CurrentPrice.Value}}</td>
-                        </div>
-                    </div>
-                </div>
-                <div ng-if="prodInfo.Location">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <td>Location</td>
-                        </div>
-                        <div class="col">
+                            <!--</div>-->
+                            <!--</div>-->
+                        </tr>
+                        <tr ng-if="prodInfo.Location">
+                            <!--<div class="row">-->
+                            <!--<div class="col-sm-6">-->
+                            <td class="pl-3">Location</td>
+                            <!--</div>-->
+                            <!--<div class="col">-->
                             <td>{{prodInfo.Location}}</td>
-                        </div>
-                    </div>
-                </div>
-                <div ng-if="prodInfo.ReturnPolicy">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <td>Return Policy (US) </td>
-                        </div>
-                        <td>
-                            {{prodInfo.ReturnPolicy.ReturnsAccepted}}</td>
+                            <!--</div>-->
+                            <!--</div>-->
+                        </tr>
+                        <tr ng-if="prodInfo.ReturnPolicy">
+                            <!--<div class="row">-->
+                            <!--<div class="col-sm-6">-->
+                            <td class="pl-3">Return Policy (US) </td>
+                            <!--</div>-->
+                            <td ng-if="prodInfo.ReturnPolicy.ReturnsWithin">
+                                {{prodInfo.ReturnPolicy.ReturnsAccepted}} Within {{prodInfo.ReturnPolicy.ReturnsWithin}} </td>
 
-                        <div ng-if="prodInfo.ReturnPolicy.ReturnsWithin">
-                            within {{prodInfo.ReturnPolicy.ReturnsWithin}}
-                        </div>
-                    </div>
-                </div>
+                            <td ng-if="!prodInfo.ReturnPolicy.ReturnsWithin">
+                                {{prodInfo.ReturnPolicy.ReturnsAccepted}}
+                            </td>
+                            <!--</div>-->
+                        </tr>
 
-                <div ng-repeat="(key,value) in prodInfo.ItemSpecifics.NameValueList">
-                    <div class="row">
-                        <div class="col-sm-6">{{value.Name}}</div>
-                        <div class="col">{{value.Value[0]}}</div>
-                    </div>
+                        <tr ng-repeat="(key,value) in prodInfo.ItemSpecifics.NameValueList">
+                            <!--<div class="row">-->
+                            <!--<div class="col-sm-6">-->
+                            <td class="pl-3">{{value.Name}}</td>
+                            <!--</div>-->
+                            <!--<div class="col">-->
+                            <td class="pl-auto">{{value.Value[0]}}</td>
+                            <!--</div>-->
+                            <!--</div>-->
+                        </tr>
+                    </table>
                 </div>
             </div>
 
+            <div class="tab-pane fade show" id="pills-photos" role="tabpanel" aria-labelledby="pills-photos-tab">
+                <div class = "photoRow">
+                    <div class="photoColumn">
+                        <a href="{{googleimages[0].link}}" target="_blank"><img src="{{googleimages[0].link}}" style="width:100%"></a></br>
+                        <a href="{{googleimages[3].link}}" target="_blank"><img src="{{googleimages[3].link}}" style="width:100%"></a>
+                    </div>
+                </br>
+                    <div class="photoColumn">
+                        <a href="{{googleimages[1].link}}" target="_blank"><img src="{{googleimages[1].link}}" style="width:100%"></a>
+                        <a href="{{googleimages[4].link}}" target="_blank"><img src="{{googleimages[4].link}}" style="width:100%"></a>
+                        <a href="{{googleimages[6].link}}" target="_blank"><img src="{{googleimages[6].link}}" style="width:100%"></a>
+                    </div>
+                </br>
+                    <div class="photoColumn">
+                        <a href="{{googleimages[2].link}}" target="_blank"><img src="{{googleimages[2].link}}" style="width:100%"></a>
+                        <a href="{{googleimages[5].link}}" target="_blank"><img src="{{googleimages[5].link}}" style="width:100%"></a>
+                        <a href="{{googleimages[7].link}}" target="_blank"><img src="{{googleimages[7].link}}" style="width:100%"></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="tab-pane fade show" id="pills-shipping" role="tabpanel" aria-labelledby="pills-shipping-tab">
+                <div class="table-responsive">
+                    <table class="table-striped table-hover table-dark container">
+                        <tr ng-if="shippinginfo.shippingServiceCost[0]">
+                            <td class="pl-3">Shipping Cost</td>
+                            <td>{{calc(shippinginfo.shippingServiceCost[0].__value__)}}</td>
+
+                        </tr>
+                        <tr ng-if="shippinginfo.shipToLocations[0]">
+                            <td class="pl-3">Shipping Locations</td>
+                            <td>{{shippinginfo.shipToLocations[0]}}</td>
+                        </tr>
+                        <tr ng-if="shippinginfo.handlingTime">
+                            <td class="pl-3">Handling Time</td>
+                            <td>{{shippinginfo.handlingTime[0]}} <span>
+                                        {{shippinginfo.handlingTime[0]>1?'Days':'Day'}}
+                                    </span> </td>
+                        </tr>
+                        <tr ng-if="shippinginfo.expeditedShipping">
+                            <td class="pl-3">Expedited Shipping</td>
+                            <td ng-if="shippinginfo.expeditedShipping[0]=='true'"><i class="material-icons tiny" style="color:green"> done</i></td>
+                            <td ng-if="shippinginfo.expeditedShipping[0]=='false'"><i class="material-icons tiny" style="color:red"> close</i></td>
+                        </tr>
+                        <tr ng-if="shippinginfo.oneDayShippingAvailable">
+                            <td class="pl-3">One day Shipping</td>
+
+                            <td ng-if="shippinginfo.oneDayShippingAvailable[0]=='true'"><i class="material-icons tiny" style="color:green"> done</i></td>
+                            <td ng-if="shippinginfo.oneDayShippingAvailable[0]=='false'"><i class="material-icons tiny" style="color:red"> close</i></td>
+                        </tr>
+                        <tr ng-if="returns">
+                            <td class="pl-3">Returns Accepted </td>
+                            <td ng-if="returns==true"><i class="material-icons tiny" style="color:green"> done</i></td>
+                            <td ng-if="returns==false"><i class="material-icons tiny" style="color:red"> close</i></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab-pane fade show" id="pills-seller" role="tabpanel" aria-labelledby="pills-seller-tab">
+                <div class="table-responsive">
+                    <table class="table-striped table-hover table-dark container">
+                        <tr ng-if="prodInfo.Seller.FeedbackScore">
+                            <td class="pl-3">Feedback Score</td>
+                            <td>{{prodInfo.Seller.FeedbackScore}}</td>
+                        </tr>
+
+
+                        <tr ng-if="prodInfo.Seller.PositiveFeedbackPercent">
+                            <td class="pl-3">Popularity</td>
+                            
+                            <td>
+                               <div class="positionRelative">
+                                <round-progress max="100" current="prodInfo.Seller.PositiveFeedbackPercent" color="green" radius="20" stroke="2" rounded="true" clockwise="false" duration="800" animation="easeInOutQuart" animation-delay="0" rounded="false" semi="false"></round-progress>
+
+                                <div class="percentageValue">{{prodInfo.Seller.PositiveFeedbackPercent}}</div>
+
+                            </div>
+                            </td>
+                        </tr>
+
+
+                        <tr ng-if="prodInfo.Seller.FeedbackRatingStar">
+                            <td class="pl-3">Feedback Rating Star</td>
+
+                            <td ng-show="prodInfo.Seller.FeedbackScore>=10000"><i class="material-icons tiny" ngStyle="color:{{prodInfo.Seller.FeedbackRatingStar.replace('Shooting','')}}">stars</i></td>
+                            <td ng-show="prodInfo.Seller.FeedbackScore<10000"><i class="material-icons tiny" ngStyle="color:{{prodInfo.Seller.FeedbackRatingStar.replace('Shooting','');}}">star_border</i></td>
+                        </tr>
+
+                        <tr ng-if="prodInfo.Seller.TopRatedSeller">
+                            <td class="pl-3">Top Rated </td>
+                            <td ng-if="prodInfo.Seller.TopRatedSeller==true"><i class="material-icons tiny" style="color:green"> done</i></td>
+                            <td ng-if="prodInfo.Seller.TopRatedSeller==false"><i class="material-icons tiny" style="color:red"> close</i></td>
+                        </tr>
+                        <tr ng-if="prodInfo.Storefront.StoreName">
+                            <td class="pl-3">Store Name</td>
+                            <td>{{prodInfo.Storefront.StoreName}}</td>
+                        </tr>
+                        <tr ng-if="prodInfo.Storefront.StoreURL">
+                            <td class="pl-3">Buy Product At</td>
+                            <td> <a href="{{prodInfo.Storefront.StoreURL}}">Store</a></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab-pane fade show" id="pills-similar" role="tabpanel" aria-labelledby="pills-similar-tab">
+
+                <div ng-if="similaritems">
+                    <div class="row">
+                        <select class="form-control col-sm-3" ng-model="dropVal" ng-change="onChange(dropVal)">
+                                <option value="default"> Default </option>
+                                <option value="name"> Product Name </option>
+                                <option value="daysleft"> Days Left  </option>
+                                <option value="price"> Price</option>
+                                <option value="shippingcost"> Shipping Cost </option>
+                        </select>
+                        <select class="form-control col-sm-3" ng-model="dropVal1" ng-change="onChange1(dropVal1)" ng-disabled="isDisabled">
+                                <option value="asc"> Ascending </option>
+                                <option value="desc"> Descending </option>
+                        </select>
+
+                    </div>
+                    <br>
+                    <div class="table-response">
+                        <table class="table table-dark w-100">
+                            
+                            <tr ng-repeat="i in similaritems | orderBy:order | limitTo:limit" ng-class="{'show': showmore}" style="margin-left:15px;margin-top:20px;">
+                                
+                                <td><img src="{{i.imageURL}}" style="max-width:80px; max-height:90px;"></td>
+                                <td>
+                                    <a href="{{i.viewItemURL}}">{{i.title}}</a><br/>
+                                    <span class="similiarprice">Price: $ {{i.buyItNowPrice.__value__}} </span><br/>
+                                    <span class="similarcost">Shipping Cost: $ {{i.shippingCost.__value__}}</span><br/> Days Left: {{i.timeLeft}}
+                                </td>
+                           
+                            </tr>
+                        </table>
+                    </div>
+                    <center><button class="btn btn-primary" ng-show="limit === 5" ng-click="showMore()">Show More</button>
+                        <button class="btn btn-primary" ng-show="limit > 5" ng-click="showLess()">Show Less</button></center>
+                </div>
+
+            </div>
+
         </div>
-        <End of Product Information -->
-        <!--Duplicate Table starts here -->
-        <div class="table responsive">
-            <table class="table-striped table-hover table-dark container">
-                <tr ng-if="prodInfo.PictureURL">
-                    <!--<div class="row">-->
-                    <!--<div class="col-sm-6">-->
-                    <td class="pl-3">Product Images</td>
-                    <!--</div>-->
-                    <!--<div class="col">-->
-                    <td>View Product Images Here</td>
-                    <!--Add Code for modal picture gallery here-->
-                    <!--</div>-->
-                    <!--</div>-->
-                </tr>
-                <tr ng-if="prodInfo.CurrentPrice">
-                    <!--<div class="row">-->
-                    <!--<div class="col-sm-6">-->
-                    <td class="pl-3">Price</td>
-                    <!--</div>-->
-                    <!--<div class="col">-->
-                    <td>${{prodInfo.CurrentPrice.Value}}</td>
-                    <!--</div>-->
-                    <!--</div>-->
-                </tr>
-                <tr ng-if="prodInfo.Location">
-                    <!--<div class="row">-->
-                    <!--<div class="col-sm-6">-->
-                    <td class="pl-3">Location</td>
-                    <!--</div>-->
-                    <!--<div class="col">-->
-                    <td>{{prodInfo.Location}}</td>
-                    <!--</div>-->
-                    <!--</div>-->
-                </tr>
-                <tr ng-if="prodInfo.ReturnPolicy">
-                    <!--<div class="row">-->
-                    <!--<div class="col-sm-6">-->
-                    <td class="pl-3">Return Policy (US) </td>
-                    <!--</div>-->
-                    <td ng-if="prodInfo.ReturnPolicy.ReturnsWithin">
-                        {{prodInfo.ReturnPolicy.ReturnsAccepted}} Within {{prodInfo.ReturnPolicy.ReturnsWithin}} </td>
-
-                    <td ng-if="!prodInfo.ReturnPolicy.ReturnsWithin">
-                        {{prodInfo.ReturnPolicy.ReturnsAccepted}}
-                    </td>
-                    <!--</div>-->
-                </tr>
-
-                <tr ng-repeat="(key,value) in prodInfo.ItemSpecifics.NameValueList">
-                    <!--<div class="row">-->
-                    <!--<div class="col-sm-6">-->
-                    <td class="pl-3">{{value.Name}}</td>
-                    <!--</div>-->
-                    <!--<div class="col">-->
-                    <td class="pl-auto">{{value.Value[0]}}</td>
-                    <!--</div>-->
-                    <!--</div>-->
-                </tr>
-            </table>
-        </div>
-
-        <!--Duplicate End Table starts-->
-
-        </div>
-        <!--End of container-->
-        <!--Product information over-->
+    </div>
 
 
-        <script>
-            var app = angular.module("myApp", ['ui.bootstrap', 'angularUtils.directives.dirPagination']);
-            app.controller("myCtrl", function($scope, $http) {
-                $scope.values = {
-                    keyword: "",
-                    categoryId: "0",
-                    New: "",
-                    Used: "",
-                    Unspecifies: "",
-                    LocalPickupOnly: "",
-                    FreeShippingOnly: "",
-                    distance: "10",
-                    radiobutton1: true,
-                    radiobutton2: false,
-                    locationinput: ""
 
-                }
-                var i = 0;
-                var j = 0;
-                $scope.btnclick = function() {
 
-                    $scope.values.categoryId = document.getElementById("categoryId").value;
-                    $scope.url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=YashShah-Yash-PRD-e16e2f149-341d2218&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&paginationInput.entriesPerPage=50&keywords=" + encodeURI(document.getElementById("keyword").value);
+    <!--End of container-->
+    <!--Product information over-->
 
-                    if ((document.getElementById("New").checked) || (document.getElementById("Used").checked) || (document.getElementById("Unspecified").checked)) {
-                        $scope.url += "&itemFilter(" + i + ").name=Condition";
-                        if (document.getElementById("New").checked) {
-                            $scope.url += "&itemFilter(" + i + ").value(" + j + ")=New";
-                            j += 1;
-                        }
-                        if (document.getElementById("Used").checked) {
-                            $scope.url += "&itemFilter(" + i + ").value(" + j + ")=Used";
-                            j += 1;
-                        }
-                        if (document.getElementById("Unspecified").checked) {
-                            $scope.url += "&itemFilter(" + i + ").value(" + i + ")=Unspecified";
-                            j += 1;
-                        }
-                        j = 0;
-                        i += 1;
 
+    <script>
+        var app = angular.module("myApp", ['ui.bootstrap', 'angularUtils.directives.dirPagination', 'angular-svg-round-progressbar']);
+        app.controller("myCtrl", function($scope, $http) {
+            $scope.searchResult = false;
+            $scope.showDetails = false;
+            $scope.dropVal = "default";
+            $scope.sortOrder = "asc";
+            $scope.dropVal1 = "asc";
+            $scope.keyword = "";
+            $scope.New = "";
+            $scope.Used = "";
+            $scope.Unspecifies = "";
+            $scope.LocalPickupOnly = "";
+            $scope.FreeShippingOnly = "";
+            $scope.distance = "10";
+            $scope.radiobutton1 = true;
+            $scope.radiobutton2 = false;
+            $scope.locationinput = "";
+$scope.showprogressbar=false;
+            $scope.limit = 5;
+
+
+
+            //Sorting Logic starts
+            $scope.order = null;
+            $scope.sortOrder = "asc";
+
+            var i = 0;
+            var j = 0;
+            $scope.btnclick = function() {
+                $scope.showprogressbar = true;
+                $scope.searchResult = false;
+                $scope.showDetails = true;
+                $scope.categoryId = document.getElementById("categoryId").value;
+                $scope.url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=YashShah-Yash-PRD-e16e2f149-341d2218&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&paginationInput.entriesPerPage=50&keywords=" + encodeURI(document.getElementById("keyword").value);
+
+                if ((document.getElementById("New").checked) || (document.getElementById("Used").checked) || (document.getElementById("Unspecified").checked)) {
+                    $scope.url += "&itemFilter(" + i + ").name=Condition";
+                    if (document.getElementById("New").checked) {
+                        $scope.url += "&itemFilter(" + i + ").value(" + j + ")=New";
+                        j += 1;
                     }
-
-                    if (document.getElementById("LocalPickupOnly").checked) {
-                        $scope.url += "&itemFilter(" + i + ").name=LocalPickupOnly&itemFilter(" + i + ").value=true";
-                        i += 1;
+                    if (document.getElementById("Used").checked) {
+                        $scope.url += "&itemFilter(" + i + ").value(" + j + ")=Used";
+                        j += 1;
                     }
-                    //console.log(document.getElementById("radiobutton1").checked); console.log(document.getElementById("radiobutton2").checked); console.log(document.getElementById("FreeShippingOnly").checked); alert('In btnclick');
-                    if (document.getElementById("FreeShippingOnly").checked) {
-                        $scope.url += "&itemFilter(" + i + ").name=FreeShippingOnly&itemFilter(" + i + ").value=true";
-                        i += 1;
+                    if (document.getElementById("Unspecified").checked) {
+                        $scope.url += "&itemFilter(" + i + ").value(" + i + ")=Unspecified";
+                        j += 1;
                     }
-                    $scope.url += "&itemFilter(" + i + ").name=HideDuplicateItems&itemFilter(" + i + ").value=true";
+                    j = 0;
                     i += 1;
-                    if (document.getElementById("distance").value) {
-                        $scope.url += "&itemFilter(" + i + ").name=MaxDistance&itemFilter(" + i + ").value=" + document.getElementById("distance").value;
-                        i += 1;
-                    } else {
-                        $scope.url += "&itemFilter(" + i + ").name=MaxDistance&itemFilter(" + i + ").value=10";
-                        i += 1;
-                    }
-                    if (document.getElementById("categoryId").value != "0" || document.getElementById("categoryId").value != 0) {
-                        $scope.url += "&categoryId=" + document.getElementById("categoryId").value;
-
-                    }
-                    if (document.getElementById("radiobutton1").checked) {
-                        $scope.url += "&buyerPostalCode=90007";
-                    } else if (document.getElementById("radiobutton2").checked) {
-                        $scope.url += "&buyerPostalCode=" + document.getElementById("locationinput").value;
-                    }
-                    $scope.url += "&outputSelector(0)=SellerInfo&outputSelector(1)=StoreInfo";
-                    console.log($scope.url);
-                    try {
-                        $http.get("http://localhost:8000/", {
-                            params: {
-                                "params": $scope.url
-                            }
-                        }).then(function(response) {
-                            console.log(response.data.findItemsAdvancedResponse[0].searchResult[0].item);
-                            $scope.data = response.data.findItemsAdvancedResponse[0].searchResult[0].item;
-                            $scope.index = 1;
-                            $scope.calc = function(price) {
-                                if (price == 0.0) {
-                                    return "Free Shipping"
-                                } else {
-                                    return "$" + price;
-                                }
-                            }
-                        });
-                    } catch (err) {
-                        console.log(err);
-                    }
-                }
-                $scope.fetchInfo = function(itemId) {
-                    console.log("Table data function");
-                    $scope.urlproduct = "http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=YashShah-Yash-PRD-e16e2f149-341d2218&siteid=0&version=967&ItemID=" + itemId + "&IncludeSelector=Description,Details,ItemSpecifics";
-                    console.log($scope.urlproduct)
-                    $http.get("http://localhost:8000/productinfo", {
-                            params: {
-                                "params": $scope.urlproduct
-                            }
-                        })
-                        .then(function(response) {
-                            console.log("In Successful product Information");
-                            console.log(response.data.Item)
-                            $scope.prodInfo = response.data.Item;
-                        });
                 }
 
-            });
-        </script>
+                if (document.getElementById("LocalPickupOnly").checked) {
+                    $scope.url += "&itemFilter(" + i + ").name=LocalPickupOnly&itemFilter(" + i + ").value=true";
+                    i += 1;
+                }
+                //console.log(document.getElementById("radiobutton1").checked); console.log(document.getElementById("radiobutton2").checked); console.log(document.getElementById("FreeShippingOnly").checked); alert('In btnclick');
+                if (document.getElementById("FreeShippingOnly").checked) {
+                    $scope.url += "&itemFilter(" + i + ").name=FreeShippingOnly&itemFilter(" + i + ").value=true";
+                    i += 1;
+                }
+                $scope.url += "&itemFilter(" + i + ").name=HideDuplicateItems&itemFilter(" + i + ").value=true";
+                i += 1;
+                if (document.getElementById("distance").value) {
+                    $scope.url += "&itemFilter(" + i + ").name=MaxDistance&itemFilter(" + i + ").value=" + document.getElementById("distance").value;
+                    i += 1;
+                } else {
+                    $scope.url += "&itemFilter(" + i + ").name=MaxDistance&itemFilter(" + i + ").value=10";
+                    i += 1;
+                }
+                if (document.getElementById("categoryId").value != "0" || document.getElementById("categoryId").value != 0) {
+                    $scope.url += "&categoryId=" + document.getElementById("categoryId").value;
+
+                }
+                if (document.getElementById("radiobutton1").checked) {
+                    $scope.url += "&buyerPostalCode=90007";
+                } else if (document.getElementById("radiobutton2").checked) {
+                    $scope.url += "&buyerPostalCode=" + document.getElementById("locationinput").value;
+                }
+                $scope.url += "&outputSelector(0)=SellerInfo&outputSelector(1)=StoreInfo";
+                console.log($scope.url);
+                try {
+                    $http.get("http://localhost:8000/", {
+                        params: {
+                            "params": $scope.url
+                        }
+                    }).then(function(response) {
+                        $scope.showprogressbar=false;
+                        console.log(response.data.findItemsAdvancedResponse[0].searchResult[0].item);
+                        $scope.data = response.data.findItemsAdvancedResponse[0].searchResult[0].item;
+                        $scope.index = 1;
+                        $scope.calc = function(price) {
+                            if (price == 0.0) {
+                                return "Free Shipping"
+                            } else {
+                                return "$" + price;
+                            }
+                        }
+                    });
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+            $scope.fetchInfo = function(itemId, title, shippinginfo, returns) {
+                $scope.showprogressbar= true;
+                console.log("Table data function");
+                $scope.searchResult = true;
+                $scope.showDetails = false;
+                $scope.itemid = itemId;
+                console.log("Title="+title);
+                $scope.title = title;
+                $scope.shippinginfo = shippinginfo;
+                console.log($scope.shippinginfo);
+                $scope.return = returns;
+                $scope.urlproduct = "http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=YashShah-Yash-PRD-e16e2f149-341d2218&siteid=0&version=967&ItemID=" + itemId + "&IncludeSelector=Description,Details,ItemSpecifics";
+                console.log($scope.urlproduct)
+                $http.get("http://localhost:8000/productinfo", {
+                        params: {
+                            "params": $scope.urlproduct
+                        }
+                    })
+                    .then(function(response) {
+                        console.log("In Successful product Information");
+                        $scope.showprogressbar=false;
+                        console.log(response.data.Item)
+                        $scope.prodInfo = response.data.Item;
+                        $scope.img = response.data.Item.PictureURL;
+                        $scope.images = []
+                        $scope.firstImg = response.data.Item.PictureURL[0];
+                        for (var i = 0; i < $scope.img.length; i++) {
+                            $scope.images[i] = $scope.img[i]
+                        }
+
+                    });
+                console.log("Fetching photos from google API");
+                var key = $scope.title.split(/[ ,]+/);
+                var search = key[0]+" "+key[1]+" "+key[3]
+                $scope.googleapi = "https://www.googleapis.com/customsearch/v1?q="+encodeURI(search)+"&cx=010236361219400767640:gybhoguyc1c&imgSize=huge&imgType=news&num=8&searchType=image&key=AIzaSyC_BgHEG2lDsS9266au0nZ8l2hwp4qQDX8";
+                console.log($scope.googleapi);
+                $http.get("http://localhost:8000/getpics", {
+                    params: {
+                        "params": $scope.googleapi
+                    }
+                }).then(function(response) {
+                    console.log("Do I ever come here");
+                    console.log("******************");
+                    $scope.googleimages = response.data.items;
+                    console.log(response.data.items)
+                    console.log("********************");
+                    
+
+                });
 
 
+                $http.get("http://localhost:8000/getsimilaritems", {
+                    params: {
+                        "params": itemId
+                    }
+                }).then(function(response) {
+                    console.log('In similar products');
+                    //console.log(response.data)
+                    $scope.similaritems = response.data.getSimilarItemsResponse.itemRecommendations.item;
+                    //console.log($scope.similaritems)
+                    for (var i = 0; i < $scope.similaritems.length; i++) {
+                        $scope.similaritems[i].timeLeft = parseFloat($scope.similaritems[i].timeLeft.substring($scope.similaritems[i].timeLeft.indexOf('P') + 1, $scope.similaritems[i].timeLeft.indexOf('D')));
+                        $scope.similaritems[i].buyItNowPrice.__value__ = parseFloat($scope.similaritems[i].buyItNowPrice.__value__);
+                        $scope.similaritems[i].shippingCost.__value__ = parseFloat($scope.similaritems[i].shippingCost.__value__);
+                    }
+                    //console.log($scope.similaritems);
+                });
+
+
+            }
+            $scope.showMore = function() {
+                $scope.showmore = true;
+                $scope.limit = $scope.similaritems.length;
+            };
+
+            $scope.showLess = function() {
+                $scope.limit = 5;
+                $scope.showmore = false;
+            };
+
+            $scope.onChange = function(value) {
+                if (value !== "default") {
+                    $scope.isDisabled = false;
+                }
+
+                $scope.sortType = value;
+
+                if ($scope.sortType === "default") {
+                    $scope.order = null;
+                    $scope.isDisabled = true;
+
+                }
+
+                if ($scope.sortType === "name" && $scope.sortOrder === "asc") {
+                    $scope.order = 'title';
+
+                } else if ($scope.sortType === "name" && $scope.sortOrder === "desc") {
+                    $scope.order = '-title';
+                } else if ($scope.sortType === "daysleft" && $scope.sortOrder === "asc") {
+                    $scope.order = 'timeLeft';
+
+                } else if ($scope.sortType === "daysleft" && $scope.sortOrder === "desc") {
+                    $scope.order = '-timeLeft';
+                } else if ($scope.sortType === "price" && $scope.sortOrder === "asc") {
+                    $scope.order = 'buyItNowPrice.__value__';
+
+                } else if ($scope.sortType === "price" && $scope.sortOrder === "desc") {
+                    $scope.order = '-buyItNowPrice.__value__';
+                } else if ($scope.sortType === "shippingcost" && $scope.sortOrder === "asc") {
+                    $scope.order = 'shippingCost.__value__';
+
+                } else if ($scope.sortType === "shippingcost" && $scope.sortOrder === "desc") {
+                    $scope.order = '-shippingCost.__value__';
+                }
+            };
+
+            $scope.onChange1 = function(value) {
+                $scope.sortOrder = value;
+
+                if ($scope.sortType === "default") {
+                    $scope.order = null;
+
+                }
+                if ($scope.sortType === "name" && $scope.sortOrder === "asc") {
+                    $scope.order = 'title';
+
+                } else if ($scope.sortType === "name" && $scope.sortOrder === "desc") {
+                    $scope.order = '-title';
+                } else if ($scope.sortType === "daysleft" && $scope.sortOrder === "asc") {
+                    $scope.order = 'timeLeft';
+
+                } else if ($scope.sortType === "daysleft" && $scope.sortOrder === "desc") {
+                    $scope.order = '-timeLeft';
+                } else if ($scope.sortType === "price" && $scope.sortOrder === "asc") {
+                    $scope.order = 'buyItNowPrice.__value__';
+
+                } else if ($scope.sortType === "price" && $scope.sortOrder === "desc") {
+                    $scope.order = '-buyItNowPrice.__value__';
+                } else if ($scope.sortType === "shippingcost" && $scope.sortOrder === "asc") {
+                    $scope.order = 'shippingCost.__value__';
+
+                } else if ($scope.sortType === "shippingcost" && $scope.sortOrder === "desc") {
+                    $scope.order = '-shippingCost.__value__';
+                }
+
+            };
+
+
+            // Sorting logic completed
+
+
+
+
+
+        });
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-svg-round-progressbar/0.4.8/roundProgress.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-svg-round-progressbar/0.4.8/roundProgress.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="angular-sanitize.js"></script>
+    <script src="ui-bootstrap-tpls-2.1.3.js"></script>
+    <script src="dirPagination.js"></script>
 </body>
 
 </html>
-<script>

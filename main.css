@@ -1,0 +1,54 @@
+.form-group.required {
+    content: "*";
+    color: red;
+}
+
+.modal.and.carousel {
+    position: fixed;
+}
+
+
+.photoRow {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        padding: 4px;
+    }
+    
+.photoColumn {
+        -ms-flex: 33%;
+        flex: 33%;
+        max-width: 33%;
+        padding: 4px;
+ }
+.photoColumn img {
+        margin-top: 8px;
+        vertical-align: middle;
+        border: 4px solid black;
+        padding-down:4px;
+        
+    }
+.similarcost{
+    color:#f3db0a;
+}
+    .similiarprice{
+        color: #a0e00b;
+    }
+
+    .nav .active{
+        color:black;
+    }
+
+        .positionRelative {
+        position: relative;
+    }
+    
+    .percentageValue {
+        left: 63%;
+        top: 122%;
+        position: absolute;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 600;
+    }
